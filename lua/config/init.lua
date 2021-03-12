@@ -1,0 +1,7 @@
+require('config.completion')
+require('config.telescope')
+require('config.treesitter')
+require('config.galaxyline')
+require('config.lsp')
+require('config.gitsigns')
+require('config.kommentary')
