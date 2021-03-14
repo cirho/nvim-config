@@ -22,7 +22,7 @@ opt('shiftwidth', indent, buffer)
 opt('softtabstop', indent, buffer)
 opt('tabstop', indent, buffer)
 opt('autoindent', true, buffer)
-opt('expandtab', false, buffer)
+opt('expandtab', true, buffer)
 opt('smartindent', true, buffer)
 
 -- lines offset when scrolling
@@ -40,9 +40,10 @@ opt('hidden', true)
 -- word wrapping
 opt('wrap', false)
 
--- show relative line numbers
+-- show relative line numbers and unwanted spaces
 opt('number', true, window)
 opt('relativenumber', true, window)
+opt('list', true, window)
 
 -- visual clue for line length
 opt('colorcolumn', "120", window)
@@ -71,6 +72,10 @@ opt('pumblend', 3 )
 -- fast begin and end of line
 keymap('L', '$', '', {})
 keymap('H', '^', '', {})
+
+-- leader is nop
+keymap('<leader>','', 'x', {noremap = true})
+keymap('<leader>','', 'n', {noremap = true})
 
 -- quick save
 keymap('<leader>w', ':w<CR>')

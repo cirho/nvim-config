@@ -1,4 +1,5 @@
 local gl = require('galaxyline')
+local gl_cond = require('galaxyline.condition')
 local utils = require('utils')
 
 utils.opt('showmode', false)
@@ -86,7 +87,6 @@ local function buffers_count()
   return #buffers
 end
 
--- Left side
 gls.left[1] = {
   ViMode = {
     provider = function()
@@ -118,6 +118,7 @@ gls.left[1] = {
     highlight = {colors.bg, colors.bg, 'bold'}
   }
 }
+
 gls.left[2] = {
   FileIcon = {
     provider = {function() return '  ' end, 'FileIcon'},
@@ -128,6 +129,7 @@ gls.left[2] = {
     }
   }
 }
+
 gls.left[3] = {
   FileName = {
     provider = get_current_file_name,
@@ -135,6 +137,7 @@ gls.left[3] = {
     highlight = {colors.fg, colors.section_bg},
   }
 }
+
 gls.left[4] = {
   ShowLspStatus = {
     provider = function()
@@ -147,38 +150,44 @@ gls.left[4] = {
       end
       return ''
     end,
-    highlight = {colors.section_fg,colors.section_bg},
-    separator = '',
-    separator_highlight = { colors.section_bg, colors.bg },
+    highlight = {colors.fg, colors.section_bg},
   }
 }
-gls.left[9] = {
+
+gls.left[5] = {
+  Separator = {
+    provider = function() return '' end,
+    highlight = { colors.section_bg, colors.bg },
+  }
+}
+
+gls.left[10] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
     icon = '  ',
     highlight = {colors.red1, colors.bg}
   }
 }
-gls.left[10] = {
+gls.left[11] = {
   Space = {
     provider = function() return ' ' end,
     highlight = {colors.section_bg, colors.bg}
   }
 }
-gls.left[11] = {
+gls.left[12] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
     icon = '  ',
     highlight = {colors.orange, colors.bg}
   }
 }
-gls.left[12] = {
+gls.left[13] = {
   Space = {
     provider = function() return ' ' end,
     highlight = {colors.section_bg, colors.bg}
   }
 }
-gls.left[13] = {
+gls.left[14] = {
   DiagnosticInfo = {
     provider = 'DiagnosticInfo',
     icon = '  ',
@@ -221,8 +230,7 @@ gls.right[4] = {
 gls.right[5] = {
   GitIcon = {
     provider = function() return '  ' end,
-    condition = buffer_not_empty and
-    require('galaxyline.provider_vcs').check_git_workspace,
+    condition = buffer_not_empty and gl_cond.check_git_workspace,
     highlight = {colors.middlegrey, colors.bg}
   }
 }
@@ -235,9 +243,17 @@ gls.right[6] = {
 }
 
 gls.right[7] = {
+  FileFormat = {
+    icon = '  ',
+    provider = 'FileTypeName',
+    highlight = {colors.middlegrey, colors.bg}
+  }
+}
+
+gls.right[8] = {
   PerCent = {
     provider = 'LinePercent',
-    separator = '',
+    separator = ' ',
     separator_highlight = {colors.blue, colors.bg},
     highlight = {colors.gray2, colors.blue}
   }
@@ -251,7 +267,7 @@ gls.short_line_left[1] = {
       has_value(gl.short_line_list, vim.bo.filetype)
     end,
     highlight = {
-      require('galaxyline.provider_fileinfo').get_file_icon,
+      colors.fg,
       colors.section_bg
     }
   }
@@ -260,18 +276,20 @@ gls.short_line_left[2] = {
   FileName = {
     provider = get_current_file_name,
     condition = buffer_not_empty,
-    highlight = {colors.section_fg, colors.section_bg},
-    separator = '',
-    separator_highlight = {colors.section_bg, colors.bg}
+    highlight = {colors.fg, colors.section_bg},
+  }
+}
+gls.short_line_left[3] = {
+  Separator = {
+    provider = function() return '' end,
+    highlight = { colors.section_bg, colors.bg },
   }
 }
 
 gls.short_line_right[1] = {
   BufferIcon = {
     provider = 'BufferIcon',
-    highlight = {colors.yellow, colors.section_bg},
-    separator = '',
-    separator_highlight = {colors.section_bg, colors.bg}
+    highlight = {colors.yellow, colors.bg},
   }
 }
 

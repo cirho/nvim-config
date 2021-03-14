@@ -2,7 +2,12 @@ local lsp_status = require('lsp-status')
 local lspconfig = require('lspconfig')
 local capabilities = lsp_status.capabilities
 
+lsp_status.config{
+  status_symbol = ' lsp:'
+}
+
 lsp_status.register_progress()
+
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- for diagnostics

@@ -1,10 +1,10 @@
 local M = {}
 
 function M.keymap(f, t, m, opts)
-	local m = m or 'n'
-	local opts = opts or { silent = true, noremap = true, nowait = true }
+  local m = m or 'n'
+  local opts = opts or { silent = true, noremap = true, nowait = true }
 
-	vim.api.nvim_set_keymap(m, f, t, opts)
+  vim.api.nvim_set_keymap(m, f, t, opts)
 end
 
 function M.opt(o, v, scopes)
