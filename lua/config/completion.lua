@@ -22,7 +22,7 @@ require('compe').setup {
   source = {
     path = true;
     buffer = true;
-    calc = true;
+    calc = false;
     vsnip = true;
     nvim_lsp = true;
     nvim_lua = true;
@@ -74,9 +74,8 @@ _G.s_tab_complete = function()
   end
 end
 
-
 -- expr must be set to true
-local opts = {silent = true, expr = true, nowait = true, noremap = true}
+local opts = {silent = true, expr = true, nowait = true }
 utils.keymap('<Tab>', 'v:lua.tab_complete()', 'i', opts)
 utils.keymap('<Tab>', 'v:lua.tab_complete()', 's', opts)
 utils.keymap('<S-Tab>', 'v:lua.s_tab_complete()', 'i', opts)

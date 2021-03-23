@@ -10,12 +10,12 @@ vim.api.nvim_exec([[
 return require('packer').startup(function()
   use { 'wbthomason/packer.nvim', opt = true }
 
-  use 'hrsh7th/vim-vsnip'
+  use { 'hrsh7th/vim-vsnip', config = [[ require('config/vsnip') ]] }
 
   use 'neovim/nvim-lspconfig'
-  use 'hrsh7th/nvim-compe'
   use 'nvim-lua/lsp-status.nvim'
   use 'nvim-lua/lsp_extensions.nvim'
+  use 'hrsh7th/nvim-compe'
 
   use { 'sainnhe/sonokai', config = function() vim.cmd [[ colorscheme sonokai ]] end }
   use { 'glepnir/galaxyline.nvim',  requires = {'kyazdani42/nvim-web-devicons', opt = true} }
@@ -28,7 +28,7 @@ return require('packer').startup(function()
 
   use { 'vlime/vlime', opt = true }
 
-  use { 'lervag/vimtex', config = [[ require('config/vimtex'); ]] }
+  use { 'lervag/vimtex', ft = { 'tex' }, config = [[ require('config/vimtex') ]] }
 
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }

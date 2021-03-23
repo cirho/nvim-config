@@ -81,11 +81,14 @@ keymap('<leader>','', 'n', {noremap = true})
 keymap('<leader>w', ':w<CR>')
 
 -- move between adjacent buffers/windows
-keymap('<C-H>', '<C-W><C-H>');
-keymap('<C-J>', '<C-W><C-J>');
-keymap('<C-K>', '<C-W><C-K>');
-keymap('<C-L>', '<C-W><C-L>');
-keymap('<leader><leader>', '<C-^>');
+keymap('<C-H>', '<C-W><C-H>')
+keymap('<C-J>', '<C-W><C-J>')
+keymap('<C-K>', '<C-W><C-K>')
+keymap('<C-L>', '<C-W><C-L>')
+keymap('<leader><leader>', '<C-^>')
+
+-- folding
+opt('foldlevelstart', 99)
 
 -- hightlight yanked text
 vim.cmd [[ au TextYankPost * lua vim.highlight.on_yank {on_visual = false} ]]

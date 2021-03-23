@@ -1,7 +1,7 @@
 local treesitter = require('nvim-treesitter.configs')
 
 treesitter.setup {
-  ensure_installed = "maintained", 
+  ensure_installed = {"html", "python", "lua", "json", "regex", "rust", "toml", "bash", "css", "cpp", "c", "java" },
   highlight = {
     enable = true,
     use_languagetree = true,
@@ -15,3 +15,9 @@ treesitter.setup {
     enable = true,
   }
 }
+
+
+vim.cmd [[
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+]]
