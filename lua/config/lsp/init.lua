@@ -72,6 +72,19 @@ lspconfig.rust_analyzer.setup{
   },
 }
 
-lspconfig.clangd.setup{}
+lspconfig.clangd.setup{
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--suggest-missing-includes",
+    "--clang-tidy",
+    "--header-insertion=iwyu",
+  },
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
 
-lspconfig.pyls.setup{}
+lspconfig.pyls.setup{
+  on_attach = on_attach,
+  capabilities = capabilities
+}
