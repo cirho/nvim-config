@@ -28,6 +28,8 @@ return require('packer').startup(function()
 
   use { 'vlime/vlime', opt = true }
 
+  use { 'rhysd/vim-clang-format', config = [[ require('config/clang_format') ]] }
+
   use { 'lervag/vimtex', ft = { 'tex' }, config = [[ require('config/vimtex') ]] }
 
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }

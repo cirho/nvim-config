@@ -27,7 +27,7 @@ local on_attach = function(client, bufnr)
   keymap('n', 'K', '<CMD>lua vim.lsp.buf.hover()<CR>')
   keymap('n', 'gi', '<CMD>lua vim.lsp.buf.implementation()<CR>')
   keymap('n', 'gr', '<CMD>lua vim.lsp.buf.references()<CR>')
-  keymap('n', 'rn', '<CMD>lua vim.lsp.buf.rename()<CR>')
+  keymap('n', 'gn', '<CMD>lua vim.lsp.buf.rename()<CR>')
   keymap('n', 'W', '<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>')
   keymap('n', 'E', '<CMD>lua vim.lsp.diagnostic.goto_next()<CR>')
 
@@ -71,3 +71,7 @@ lspconfig.rust_analyzer.setup{
     },
   },
 }
+
+lspconfig.clangd.setup{}
+
+lspconfig.pyls.setup{}
