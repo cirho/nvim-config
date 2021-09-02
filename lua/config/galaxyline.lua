@@ -68,7 +68,11 @@ local function file_readonly()
 end
 
 local function get_current_file_name()
-  local file = vim.fn.expand('%:t')
+  local file = vim.fn.expand('%')
+  local cwd = vim.fn.getcwd() .. '/'
+  local cwd_len = string.len(cwd)
+
+  if string.sub(file, 1, cwd_len) == cwd then file = string.sub(file, cwd_len + 1) end
   if vim.fn.empty(file) == 1 then return '' end
   if string.len(file_readonly()) ~= 0 then return file .. file_readonly() end
   if vim.bo.modifiable then
