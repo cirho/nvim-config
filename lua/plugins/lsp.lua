@@ -11,8 +11,7 @@ lsp_status.config{
 lsp_status.register_progress()
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
+capabilities.textDocument.completion.completionItem.resolveSupport = { properties = {
     'documentation',
     'detail',
     'additionalTextEdits',
@@ -30,20 +29,24 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 local on_attach = function(client, bufnr) 
   local opts = { noremap = true, silent = true, nowait = true}
-  local function keymap(m, f, t) vim.api.nvim_buf_set_keymap(bufnr, m, f, t, opts) end
-  keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
-  keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
-  keymap('n', '<leader>d', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
-  keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
-  keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+  local function map(m, f, t) vim.api.nvim_buf_set_keymap(bufnr, m, f, t, opts) end
+  map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+  map('n', '<leader>d', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
 
-  keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
 
-  keymap('n', 'g[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>')
-  keymap('n', 'g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>')
+  map('n', 'g[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>')
+  map('n', 'g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>')
 
-  keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
-  keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+  map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+
+  map('n', '<leader>a', '<cmd>lua require("telescope.builtin").lsp_code_actions()<cr>')
+  map('n', '<leader>D', '<cmd>lua require("telescope.builtin").lsp_workspace_diagnostics()<cr>')
+  map('n', '<leader>rf', '<cmd>lua require("telescope.builtin").lsp_references()<cr>')
 
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
@@ -67,6 +70,7 @@ end
 
 -- show inlay hints and other fun stuff
 cmd [[ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint" } } ]] 
+
 
 -- rust
 lspconfig.rust_analyzer.setup{ 
