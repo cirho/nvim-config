@@ -1,4 +1,4 @@
-local utils = require('utils')
+local map = require('utils').map
 
 require('telescope').setup{
   defaults = {
@@ -6,12 +6,11 @@ require('telescope').setup{
       'rg',
       '--color=never',
       '--no-heading',
+      "-L",
       '--with-filename',
       '--line-number',
       '--column',
-      '--smart-case'
-    },
-    prompt_position = "bottom",
+      '--smart-case' },
     prompt_prefix = "> ",
     selection_caret = "> ",
     entry_prefix = "  ",
@@ -19,42 +18,46 @@ require('telescope').setup{
     selection_strategy = "reset",
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
-    layout_defaults = {
+    layout_config = {
+      width = 0.75,
       horizontal = {
         mirror = false,
       },
       vertical = {
         mirror = false,
       },
+      preview_cutoff = 120,
+      prompt_position = "bottom",
     },
-    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
+    file_sorter =  require('telescope.sorters').get_fuzzy_file,
     file_ignore_patterns = {},
-    generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-    shorten_path = true,
+    generic_sorter =  require('telescope.sorters').get_generic_fuzzy_sorter,
+    path_display = {"absolute" },
     winblend = 0,
-    width = 0.75,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     color_devicons = true,
     use_less = true,
     set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+    file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+    grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+    qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
   }
 }
 
 local opts = { noremap = true, silent = true, nowait = true};
 
-utils.keymap('<leader>p', [[<CMD>lua require('telescope.builtin').find_files()<CR>]])
-utils.keymap('<leader>fg', [[<CMD>lua require('telescope.builtin').git_files()<CR>]])
-utils.keymap('<leader>fe', [[<CMD>lua require('telescope.builtin').file_browser()<CR>]])
-utils.keymap('<leader>fo', [[<CMD>lua require('telescope.builtin').old_files()<CR>]])
+map('<leader>p', [[<cmd>lua require('telescope.builtin').find_files({ follow = true })<cr>]])
+map('<leader>fg', [[<cmd>lua require('telescope.builtin').git_files({ follow = true })<cr>]])
+map('<leader>fe', [[<cmd>lua require('telescope.builtin').file_browser()<cr>]])
+map('<leader>fo', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]])
 
-utils.keymap('<leader>;', [[<CMD>lua require('telescope.builtin').buffers()<CR>]])
-utils.keymap('<leader>a', [[<CMD>lua require('telescope.builtin').lsp_code_actions()<CR>]])
-utils.keymap('<leader>d', [[<CMD>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>]])
-utils.keymap('<leader>rj', [[<CMD>lua require('telescope.builtin').lsp_references()<CR>]])
+map('<leader>rg', [[<cmd>lua require('telescope.builtin').live_grep()<cr>]])
+
+map('<leader>;', [[<cmd>lua require('telescope.builtin').buffers()<cr>]])
+map('<leader>a', [[<cmd>lua require('telescope.builtin').lsp_code_actions()<cr>]])
+map('<leader>D', [[<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<cr>]])
+map('<leader>rf', [[<cmd>lua require('telescope.builtin').lsp_references()<cr>]])
+
+map('<leader>z', [[<cmd>lua require('telescope.builtin').spell_suggest()<cr>]])
+map('<leader>m', [[<cmd>lua require('telescope.builtin').marks()<cr>]])

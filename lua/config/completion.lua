@@ -1,9 +1,12 @@
-local utils = require('utils')
+local opt = vim.opt
+local cmd = vim.cmd
 
-utils.opt('completeopt', 'menuone,noselect')
+local map = require('utils').map
+
+opt.completeopt = 'menuone,noselect'
 
 -- no stupid messages 
-vim.cmd [[set shortmess+=c]]
+cmd [[ set shortmess+=c ]]
 
 require('compe').setup {
   enabled = true;
@@ -40,8 +43,8 @@ local t = function(str)
 end
 
 local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+  local col = vim.fn.col('.') - 1
+  return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
 _G.tab_complete = function()
@@ -67,14 +70,14 @@ end
 
 -- expr must be set to true
 local opts = {silent = true, expr = true, nowait = true }
-utils.keymap('<Tab>', 'v:lua.tab_complete()', 'i', opts)
-utils.keymap('<Tab>', 'v:lua.tab_complete()', 's', opts)
-utils.keymap('<S-Tab>', 'v:lua.s_tab_complete()', 'i', opts)
-utils.keymap('<S-Tab>', 'v:lua.s_tab_complete()', 's', opts)
+map('<Tab>', 'v:lua.tab_complete()', 'i', opts)
+map('<Tab>', 'v:lua.tab_complete()', 's', opts)
+map('<S-Tab>', 'v:lua.s_tab_complete()', 'i', opts)
+map('<S-Tab>', 'v:lua.s_tab_complete()', 's', opts)
 
 -- select first option with space
-utils.keymap('<CR>', [[compe#confirm({ 'keys': '<CR>', 'select': v:true })]], 'i', opts)
+map('<CR>', [[compe#confirm({ 'keys': '<CR>', 'select': v:true })]], 'i', opts)
 -- invoke completion without typing shit
-utils.keymap('<C-Space>', [[compe#complete()]], 'i', opts)
+map('<C-Space>', [[compe#complete()]], 'i', opts)
 -- cancel without exiting insert mode
-utils.keymap('<C-e>', [[compe#close('<C-e>')]], 'i', opts)
+map('<C-e>', [[compe#close('<C-e>')]], 'i', opts)

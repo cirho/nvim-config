@@ -1,10 +1,13 @@
+local opt = vim.opt
+
 local gl = require('galaxyline')
 local gl_cond = require('galaxyline.condition')
+local gls = gl.section
+
 local utils = require('utils')
 
-utils.opt('showmode', false)
+opt.showmode =  false
 
-local gls = gl.section
 gl.short_line_list = {'defx', 'packager', 'vista'}
 
 local colors = {
@@ -26,9 +29,11 @@ local colors = {
   middlegrey = '#8791A5'
 }
 
-local buffer_not_empty = function() return not utils.is_buffer_empty() end
+local function buffer_not_empty()
+  return not utils.is_buffer_empty()
+end
 
-local checkwidth = function()
+local function checkwidth()
   return utils.has_width_gt(35) and buffer_not_empty()
 end
 
