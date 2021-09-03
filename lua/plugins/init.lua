@@ -32,7 +32,6 @@ require('packer').startup(function()
 
 
   use { 'vlime/vlime', opt = true }
-  use { 'rhysd/vim-clang-format', config = get_config('clang_format') }
   use { 'lervag/vimtex', ft = { 'tex' }, config = get_config('vimtex') }
 
   use { 'nvim-telescope/telescope.nvim',
