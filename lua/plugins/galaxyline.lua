@@ -253,7 +253,7 @@ gls.right[6] = {
 
 gls.right[7] = {
   FileFormat = {
-    icon = '  ',
+    icon = '   ',
     provider = 'FileTypeName',
     highlight = {colors.middlegrey, colors.bg}
   }
