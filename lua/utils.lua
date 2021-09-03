@@ -15,4 +15,14 @@ function M.has_width_gt(cols)
   return vim.fn.winwidth(0) / 2 > cols
 end
 
+function M.change_indent(spaces)
+  vim.bo.shiftwidth = spaces
+  vim.bo.softtabstop = spaces
+  vim.bo.tabstop = spaces
+end
+
+function M.hard_tabs()
+  vim.bo.expandtab = false
+end
+
 return M
