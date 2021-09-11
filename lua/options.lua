@@ -64,7 +64,9 @@ opt.confirm = true
 opt.wildmenu = true
 opt.wildmode = 'full' 
 opt.wildignorecase = true
-opt.wildignore = '.git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**'
+opt.wildignore = {
+  '.git', '*.pyc', '*.o', '*.out', '*.e', '*.tar.*', '*.tar','*.zip', '**/tmp/**', '**/node_modules/**',
+}
 opt.wildoptions = 'pum'
 opt.pumblend = 3
 
