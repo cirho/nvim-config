@@ -66,34 +66,31 @@ local mode_color = function()
   end
 end
 
-local function file_readonly()
-  if vim.bo.filetype == 'help' then return '' end
-  if vim.bo.readonly == true then return '  ' end
-  return ''
-end
+local home = vim.env.HOME .. '/'
 
 local function get_current_file_name()
-  local file = vim.fn.expand('%')
-  local cwd = vim.fn.getcwd() .. '/'
-  local cwd_len = string.len(cwd)
+  local function shorten_path(path, pref, addon)
+    local addon = addon or ''
+    local pref_len = string.len(pref)
 
-  if string.sub(file, 1, cwd_len) == cwd then file = string.sub(file, cwd_len + 1) end
-  if vim.fn.empty(file) == 1 then return '' end
-  if string.len(file_readonly()) ~= 0 then return file .. file_readonly() end
-  if vim.bo.modifiable then
-    if vim.bo.modified then return file .. '  ' end
-  end
-  return file .. ' '
-end
-
-local function buffers_count()
-  local buffers = {}
-  for _, val in ipairs(vim.fn.range(1, vim.fn.bufnr('$'))) do
-    if vim.fn.bufexists(val) == 1 and vim.fn.buflisted(val) == 1 then
-      table.insert(buffers, val)
+    if string.sub(path, 1, pref_len) == pref then
+      return addon .. string.sub(path, pref_len + 1)
     end
+
+    return path;
   end
-  return #buffers
+
+  local file = vim.fn.expand('%')
+  file = shorten_path(file , vim.fn.getcwd() .. '/')
+  file = shorten_path(file, home, '~/')
+
+  if vim.bo.readonly then
+    return file .. '  '
+  elseif vim.bo.modifiable and vim.bo.modified then
+    return file .. '  '
+  end
+
+  return file .. ' '
 end
 
 gls.left[1] = {
@@ -149,16 +146,7 @@ gls.left[3] = {
 
 gls.left[4] = {
   ShowLspStatus = {
-    provider = function()
-      local cnt = 0
-      for _ in pairs(vim.lsp.buf_get_clients()) do
-        cnt = cnt + 1
-      end
-      if cnt > 0 then
-        return require('lsp-status').status()
-      end
-      return ''
-    end,
+    provider = require('plugins.lsp').status,
     highlight = {colors.fg, colors.section_bg},
   }
 }
@@ -166,46 +154,34 @@ gls.left[4] = {
 gls.left[5] = {
   Separator = {
     provider = function() return '' end,
+    condition = buffer_not_empty,
     highlight = { colors.section_bg, colors.bg },
   }
 }
 
-gls.left[10] = {
+gls.left[6] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
-    icon = '  ',
+    icon = '  E ',
     highlight = {colors.red1, colors.bg}
   }
 }
-gls.left[11] = {
-  Space = {
-    provider = function() return ' ' end,
-    highlight = {colors.section_bg, colors.bg}
-  }
-}
-gls.left[12] = {
+
+gls.left[7] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
-    icon = '  ',
+    icon = '  W ',
     highlight = {colors.orange, colors.bg}
   }
 }
-gls.left[13] = {
-  Space = {
-    provider = function() return ' ' end,
-    highlight = {colors.section_bg, colors.bg}
-  }
-}
-gls.left[14] = {
+gls.left[8] = {
   DiagnosticInfo = {
     provider = 'DiagnosticInfo',
-    icon = '  ',
-    highlight = {colors.blue, colors.section_bg},
-    separator = ' ',
-    separator_highlight = {colors.section_bg, colors.bg}
+    icon = '  I ',
+    highlight = {colors.blue, colors.bg},
   }
 }
--- Right side
+
 gls.right[1] = {
   DiffAdd = {
     provider = 'DiffAdd',
@@ -275,10 +251,7 @@ gls.short_line_left[1] = {
       return buffer_not_empty and
       has_value(gl.short_line_list, vim.bo.filetype)
     end,
-    highlight = {
-      colors.fg,
-      colors.section_bg
-    }
+    highlight = { colors.fg, colors.section_bg }
   }
 }
 gls.short_line_left[2] = {
@@ -291,6 +264,7 @@ gls.short_line_left[2] = {
 gls.short_line_left[3] = {
   Separator = {
     provider = function() return '' end,
+    condition = buffer_not_empty,
     highlight = { colors.section_bg, colors.bg },
   }
 }
