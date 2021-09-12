@@ -13,7 +13,7 @@ opt.joinspaces = false
 opt.cmdheight = 1
 
 -- goodbye flickering left bar
-opt.signcolumn = 'yes'
+opt.signcolumn = 'yes:2'
 
 -- smart indenting with 2 spaces
 local indent = 2
