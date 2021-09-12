@@ -9,8 +9,8 @@ local M = {}
 local capabilities = cmp_nvim_lsp.update_capabilities(lsp_status.capabilities)
 
 local on_attach = function(client, bufnr) 
-  local opts = { noremap = true, silent = true, nowait = true}
-  local function map(m, f, t) vim.api.nvim_buf_set_keymap(bufnr, m, f, t, opts) end
+  local opts = { noremap = true, silent = true, nowait = true }
+  local map = function(m, f, t) vim.api.nvim_buf_set_keymap(bufnr, m, f, t, opts) end
 
   map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
   map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
@@ -47,17 +47,17 @@ end
 
 -- display error before warning or hint in signcolumn
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
+    vim.lsp.diagnostic.on_publish_diagnostic, {
         severity_sort = true
     }
 )
 
 -- show inlay 
-function M.inlay_hints()
+M.inlay_hints = function()
   lsp_extensions.inlay_hints({ 
     prefix = '',
     highlight = "Comment",
-    enabled = {"TypeHint", "ChainingHint" } 
+    enabled = { "TypeHint", "ChainingHint" } 
   })
 end 
 
@@ -73,7 +73,7 @@ lsp_status.config{
 
 lsp_status.register_progress()
 
-function M.status()
+M.status = function()
   if not vim.tbl_isempty(vim.lsp.buf_get_clients()) then
     local output = lsp_status.status()
     if output == lsp_symbol .. ' ' then return output .. 'ready ' end

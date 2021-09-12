@@ -1,27 +1,27 @@
 local M = {}
 
-function M.map(f, t, m, opts)
+M.map = function(f, t, m, opts)
   local m = m or 'n'
   local opts = opts or { silent = true, noremap = true, nowait = true }
 
   vim.api.nvim_set_keymap(m, f, t, opts)
 end
 
-function M.is_buffer_empty()
+M.is_buffer_empty = function()
   return vim.fn.empty(vim.fn.expand('%:t')) == 1
 end
 
-function M.has_width_gt(cols)
+M.has_width_gt = function(cols)
   return vim.fn.winwidth(0) / 2 > cols
 end
 
-function M.change_indent(spaces)
+M.change_indent = function(spaces)
   vim.bo.shiftwidth = spaces
   vim.bo.softtabstop = spaces
   vim.bo.tabstop = spaces
 end
 
-function M.hard_tabs()
+M.hard_tabs = function()
   vim.bo.expandtab = false
 end
 

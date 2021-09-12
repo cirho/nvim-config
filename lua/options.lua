@@ -1,5 +1,4 @@
 local opt = vim.opt
-local cmd = vim.cmd
 
 local map = require('utils').map
 
@@ -92,4 +91,4 @@ map('<leader><leader>', '<C-^>')
 opt.foldlevelstart = 99
 
 -- hightlight yanked text
-cmd [[ au TextYankPost * lua vim.highlight.on_yank {on_visual = false} ]]
+vim.cmd('au TextYankPost * lua vim.highlight.on_yank({ on_visual = true })')

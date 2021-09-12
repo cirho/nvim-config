@@ -1,8 +1,8 @@
-vim.cmd [[packadd packer.nvim]]
+vim.cmd('packadd packer.nvim')
 
 -- remember to run :PackerCompile after making any changes !!!
 
-local function get_config(name)
+local get_config = function(name)
   require('plugins.' .. name)
 end
 
@@ -31,7 +31,7 @@ require('packer').startup(function()
   use { 'sainnhe/sonokai', config = function() vim.cmd [[ colorscheme sonokai ]] end }
   use {
     'glepnir/galaxyline.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = get_config('galaxyline')
   }
 
@@ -48,7 +48,7 @@ require('packer').startup(function()
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+    requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
     config = get_config('telescope')
   }
 
