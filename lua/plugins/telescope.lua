@@ -46,9 +46,9 @@ require('telescope').setup{
 }
 
 map('<leader>p', [[<cmd>lua require('telescope.builtin').find_files({ follow = true })<cr>]])
-map('<leader>fg', [[<cmd>lua require('telescope.builtin').git_files({ follow = true })<cr>]])
-map('<leader>fe', [[<cmd>lua require('telescope.builtin').file_browser()<cr>]])
-map('<leader>fo', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]])
+map('<leader>gg', [[<cmd>lua require('telescope.builtin').git_files({ follow = true })<cr>]])
+map('<leader>ge', [[<cmd>lua require('telescope.builtin').file_browser()<cr>]])
+map('<leader>go', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]])
 map('<leader>rg', [[<cmd>lua require('telescope.builtin').live_grep()<cr>]])
 map('<leader>;', [[<cmd>lua require('telescope.builtin').buffers()<cr>]])
 map('<leader>z', [[<cmd>lua require('telescope.builtin').spell_suggest()<cr>]])
