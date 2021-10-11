@@ -8,31 +8,39 @@ local M = {}
 
 local capabilities = cmp_nvim_lsp.update_capabilities(lsp_status.capabilities)
 
-local on_attach = function(client, bufnr) 
-  local opts = { noremap = true, silent = true, nowait = true }
-  local map = function(m, f, t) vim.api.nvim_buf_set_keymap(bufnr, m, f, t, opts) end
+local on_attach = function(client, bufnr)
+  local opts = opts or { silent = true, noremap = true, nowait = true }
 
-  map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
-  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
-  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
-  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-  map('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<cr>')
-  map('n', '<leader>d', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
-  map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>')
+  local map_lsp = function(mode, key, fn)
+    local lsp_fn = string.format('<cmd> lua vim.lsp.%s()<cr>', fn)
+    vim.api.nvim_buf_set_keymap(bufnr, mode, key, lsp_fn, opts)
+  end
+  local map_telescope = function(mode, key, fn)
+    local tele_fn = string.format('<cmd>lua require("telescope.builtin").%s()<cr>', fn)
+    vim.api.nvim_buf_set_keymap(bufnr, mode, key, tele_fn, opts)
+  end
 
-  map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  map_lsp('n', 'gD', 'buf.declaration')
+  map_lsp('n', 'gd', 'buf.definition')
+  map_lsp('n', 'gi', 'buf.implementation')
+  map_lsp('n', 'gr', 'buf.references')
+  map_lsp('n', '<leader>f', 'buf.formatting')
+  map_lsp('n', '<leader>d', 'buf.type_definition')
+  map_lsp('n', '<leader>e', 'diagnostic.show_line_diagnostics')
 
-  map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>')
-  map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>')
+  map_lsp('n', '<leader>rn', 'buf.rename')
 
-  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
-  map('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  map_lsp('n', '[d', 'diagnostic.goto_prev')
+  map_lsp('n', ']d', 'diagnostic.goto_next')
 
-  map('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-  map('v', '<leader>a', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
+  map_lsp('n', 'K', 'buf.hover')
+  map_lsp('n', '<c-s>', 'buf.signature_help')
 
-  map('n', '<leader>q', '<cmd>lua require("telescope.builtin").lsp_workspace_diagnostics()<cr>')
-  map('n', '<leader>rf', '<cmd>lua require("telescope.builtin").lsp_references()<cr>')
+  map_lsp('v', '<leader>a', 'buf.range_code_action')
+
+  map_telescope('n', '<leader>a', 'lsp_code_actions')
+  map_telescope('n', '<leader>q', 'lsp_workspace_diagnostics')
+  map_telescope('n', '<leader>rf', 'lsp_references')
 
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
@@ -46,25 +54,25 @@ local on_attach = function(client, bufnr)
 end
 
 -- display error before warning or hint in signcolumn
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostic, {
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
         severity_sort = true
     }
 )
 
--- show inlay 
+-- show inlay
 M.inlay_hints = function()
-  lsp_extensions.inlay_hints({ 
+  lsp_extensions.inlay_hints({
     prefix = '',
-    highlight = "Comment",
-    enabled = { "TypeHint", "ChainingHint" } 
+    highlight = 'Comment',
+    enabled = { 'TypeHint', 'ChainingHint' }
   })
-end 
+end
 
 vim.cmd('autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require("plugins.lsp").inlay_hints()')
 
 -- statusline provider
-local lsp_symbol = '' 
+local lsp_symbol = ''
 
 lsp_status.config{
   status_symbol = lsp_symbol,
@@ -87,13 +95,13 @@ local servers = {}
 -- rust
 servers.rust_analyzer = {
   settings = {
-    ["rust-analyzer"] = {
+    ['rust-analyzer'] = {
       checkOnSave = {
         enable = true,
       },
       assist = {
-        importMergeBehaviour = "full",
-        importPrefix = "by_crate",
+        importMergeBehaviour = 'full',
+        importPrefix = 'by_crate',
       },
     },
   },
@@ -102,11 +110,11 @@ servers.rust_analyzer = {
 -- c/cpp
 servers.clangd = {
   cmd = {
-    "clangd",
-    "--background-index",
-    "--suggest-missing-includes",
-    "--clang-tidy",
-    "--header-insertion=iwyu",
+    'clangd',
+    '--background-index',
+    '--suggest-missing-includes',
+    '--clang-tidy',
+    '--header-insertion=iwyu',
   },
 }
 

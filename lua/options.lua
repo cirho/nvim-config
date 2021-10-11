@@ -32,7 +32,7 @@ opt.termguicolors = true
 -- no visual effects during macro exeution
 opt.lazyredraw = true
 
--- do not destoy old buffer when changing 
+-- do not destoy old buffer when changing
 opt.hidden = true
 
 -- word wrapping
@@ -61,7 +61,7 @@ opt.inccommand = 'nosplit'
 
 opt.confirm = true
 opt.wildmenu = true
-opt.wildmode = 'full' 
+opt.wildmode = 'full'
 opt.wildignorecase = true
 opt.wildignore = {
   '.git', '*.pyc', '*.o', '*.out', '*.e', '*.tar.*', '*.tar','*.zip', '**/tmp/**', '**/node_modules/**',

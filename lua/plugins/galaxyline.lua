@@ -71,10 +71,9 @@ local home = vim.env.HOME .. '/'
 local get_current_file_name = function()
   local shorten_path = function(path, pref, addon)
     local addon = addon or ''
-    local pref_len = string.len(pref)
 
-    if string.sub(path, 1, pref_len) == pref then
-      return addon .. string.sub(path, pref_len + 1)
+    if string.sub(path, 1, #pref) == pref then
+      return addon .. string.sub(path, #pref + 1)
     end
 
     return path;
