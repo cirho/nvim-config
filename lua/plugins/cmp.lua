@@ -4,7 +4,7 @@ local cmp = require('cmp')
 
 local map = require('utils').map
 
--- no stupid messages 
+-- no stupid messages
 opt.shortmess:append({ c = true })
 
 local has_words_before = function()
@@ -35,17 +35,17 @@ cmp.setup({
     ['<cr>'] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Insert, }),
     ['<c-space>'] = cmp.mapping.complete(),
     ['<tab>'] = cmp.mapping(function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n', true)
+      if cmp.visible() then
+        cmp.select_next_item()
       elseif has_words_before() and vim.fn['vsnip#available']() == 1 then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-expand-or-jump)', true, true, true), '', true)
       else
-        fallback() 
+        fallback()
       end
     end, { 'i', 's' }),
     ['<s-tab>'] = cmp.mapping(function()
-      if vim.fn.pumvisible() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n', true)
+      if cmp.visible() then
+        cmp.select_next_item()
       elseif vim.fn['vsnip#jumpable'](-1) == 1 then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '', true)
       end
@@ -54,6 +54,7 @@ cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
+    { name = 'treesitter' },
     { name = 'path' },
     { name = 'buffer', max_item_count = 15 },
     { name = 'vsnip' },

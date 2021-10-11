@@ -12,7 +12,7 @@ require('packer').startup(function()
 
   use 'neovim/nvim-lspconfig'
   use 'nvim-lua/lsp-status.nvim'
-  use 'nvim-lua/lsp_extensions.nvim' 
+  use 'nvim-lua/lsp_extensions.nvim'
 
   use {
     'hrsh7th/nvim-cmp',
@@ -24,6 +24,7 @@ require('packer').startup(function()
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-vsnip',
       { 'hrsh7th/vim-vsnip', config = get_config('vsnip') },
+      'ray-x/cmp-treesitter'
     },
     config = get_config('cmp')
   }
