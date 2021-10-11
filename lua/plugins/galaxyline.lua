@@ -11,7 +11,7 @@ opt.showmode =  false
 gl.short_line_list = { 'defx', 'packager', 'vista' }
 
 local colors = {
-  bg = '#282c34',
+  bg = '#2d2a2e',
   fg = '#aab2bf',
   section_bg = '#38393f',
   blue = '#61afef',

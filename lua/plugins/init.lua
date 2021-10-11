@@ -28,7 +28,13 @@ require('packer').startup(function()
     config = get_config('cmp')
   }
 
-  use { 'sainnhe/sonokai', config = function() vim.cmd [[ colorscheme sonokai ]] end }
+  use {
+    'sainnhe/sonokai', config = function()
+      vim.g.sonokai_style = 'shusia'
+      vim.cmd [[ colorscheme sonokai ]]
+    end
+  }
+
   use {
     'glepnir/galaxyline.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
