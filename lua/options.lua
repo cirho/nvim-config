@@ -86,7 +86,8 @@ map('<C-J>', '<C-W><C-J>')
 map('<C-K>', '<C-W><C-K>')
 map('<C-L>', '<C-W><C-L>')
 map('<leader><leader>', '<C-^>')
-
+map('<leader>z', '1z=')
+map('<C-g>', ':bd<cr>')
 -- folding
 opt.foldlevelstart = 99
 

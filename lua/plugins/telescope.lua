@@ -10,46 +10,72 @@ require('telescope').setup{
       '--with-filename',
       '--line-number',
       '--column',
-      '--smart-case' },
-    prompt_prefix = "> ",
-    selection_caret = "> ",
-    entry_prefix = "  ",
-    initial_mode = "insert",
-    selection_strategy = "reset",
-    sorting_strategy = "descending",
-    layout_strategy = "horizontal",
+      '--smart-case'
+    },
     layout_config = {
-      width = 0.75,
+      width = 0.95,
+      height = 0.85,
+      -- prompt_position = "top",
       horizontal = {
-        mirror = false,
+        preview_width = function(_, cols, _)
+          if cols > 200 then
+            return math.floor(cols * 0.4)
+          else
+            return math.floor(cols * 0.6)
+          end
+        end,
       },
       vertical = {
-        mirror = false,
+        width = 0.9,
+        height = 0.95,
+        preview_height = 0.5,
       },
-      preview_cutoff = 120,
-      prompt_position = "bottom",
+      flex = {
+        horizontal = {
+          preview_width = 0.9,
+        },
+      },
     },
-    file_sorter =  require('telescope.sorters').get_fuzzy_file,
-    file_ignore_patterns = {},
-    generic_sorter =  require('telescope.sorters').get_generic_fuzzy_sorter,
-    path_display = {"absolute" },
-    winblend = 0,
-    border = {},
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
-    color_devicons = true,
-    use_less = true,
-    set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-    file_previewer = require('telescope.previewers').vim_buffer_cat.new,
-    grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
-    qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+    path_display = { "absolute" },
+    set_env = { ['COLORTERM'] = 'truecolor' }
+  },
+  pickers = {
+    buffers = {
+      theme = 'dropdown'
+    },
+    find_files = {
+      follow = true,
+
+    },
+    git_files = {
+      folow = true
+    },
+    lsp_workspace_diagnostics = {
+      initial_mode = 'normal',
+      theme = 'dropdown'
+    },
+    lsp_code_actions = {
+      initial_mode = 'normal',
+      theme = 'dropdown'
+    },
+    spell_suggest = {
+      initial_mode = 'normal',
+    },
+    lsp_references = {
+      initial_mode = 'normal',
+      theme = 'dropdown'
+    }
   }
 }
 
-map('<leader>p', [[<cmd>lua require('telescope.builtin').find_files({ follow = true })<cr>]])
-map('<leader>gg', [[<cmd>lua require('telescope.builtin').git_files({ follow = true })<cr>]])
-map('<leader>ge', [[<cmd>lua require('telescope.builtin').file_browser()<cr>]])
-map('<leader>go', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]])
-map('<leader>rg', [[<cmd>lua require('telescope.builtin').live_grep()<cr>]])
-map('<leader>;', [[<cmd>lua require('telescope.builtin').buffers()<cr>]])
-map('<leader>z', [[<cmd>lua require('telescope.builtin').spell_suggest()<cr>]])
-map('<leader>m', [[<cmd>lua require('telescope.builtin').marks()<cr>]])
+local map_tele = function(key, fn)
+  map(key, string.format('<cmd>lua require("telescope.builtin").%s()<cr>', fn))
+end
+
+map_tele('<leader>p', 'find_files')
+map_tele('<leader>gg', 'git_files')
+map_tele('<leader>ge', 'file_browser')
+map_tele('<leader>go', 'oldfiles')
+map_tele('<leader>rg', 'live_grep')
+map_tele('<leader>;', 'buffers')
+map_tele('<leader>m', 'marks')

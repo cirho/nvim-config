@@ -3,6 +3,7 @@ local opt = vim.opt
 local gl = require('galaxyline')
 local gl_cond = require('galaxyline.condition')
 local gls = gl.section
+local lsp_status = require('lsp-status')
 
 local utils = require('utils')
 
@@ -38,7 +39,7 @@ local checkwidth = function()
 end
 
 local has_value = function(tab, val)
-  for index, value in ipairs(tab) do
+  for _, value in ipairs(tab) do
     if value[1] == val then return true end
   end
   return false
@@ -58,7 +59,7 @@ local mode_color = function()
     [83] = colors.red1
   }
 
-  mode_color = mode_colors[vim.fn.mode():byte()]
+  local mode_color = mode_colors[vim.fn.mode():byte()]
   if mode_color ~= nil then
     return mode_color
   else
@@ -92,6 +93,15 @@ local get_current_file_name = function()
   return file .. ' '
 end
 
+local lsp_symbol = ''
+
+lsp_status.config({
+  status_symbol = lsp_symbol,
+  diagnostics = false
+})
+
+lsp_status.register_progress()
+
 gls.left[1] = {
   ViMode = {
     provider = function()
@@ -108,7 +118,9 @@ gls.left[1] = {
         [83] = 'S-LINE'
       }
       vim.api.nvim_command('hi GalaxyViMode guibg=' .. mode_color())
-      alias = aliases[vim.fn.mode():byte()]
+      local alias = aliases[vim.fn.mode():byte()]
+      local mode = nil
+
       if alias ~= nil then
         if utils.has_width_gt(35) then
           mode = alias
@@ -143,9 +155,18 @@ gls.left[3] = {
   }
 }
 
+
+
 gls.left[4] = {
   ShowLspStatus = {
-    provider = require('plugins.lsp').status,
+    provider =  function()
+      if not vim.tbl_isempty(vim.lsp.buf_get_clients()) then
+        local output = lsp_status.status()
+        if output == lsp_symbol .. ' ' then return output .. 'ready ' end
+        return output
+      end
+      return ''
+    end,
     highlight = { colors.fg, colors.section_bg },
   }
 }

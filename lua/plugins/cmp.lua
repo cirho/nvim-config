@@ -1,8 +1,7 @@
 local opt = vim.opt
 
 local cmp = require('cmp')
-
-local map = require('utils').map
+local luasnip = require('luasnip')
 
 -- no stupid messages
 opt.shortmess:append({ c = true })
@@ -13,50 +12,60 @@ local has_words_before = function()
 end
 
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
+  snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
   formatting = {
     format = function(entry, vim_item)
       vim_item.menu = ({
-        buffer = "[BUF]",
-        nvim_lsp = "[LSP]",
-        nvim_lua = "[NVIM]",
-        path = "[PATH]",
-        vsnip = "[SNIP]",
+        buffer = '[buf]',
+        nvim_lsp = '[lsp]',
+        nvim_lua = '[nvim]',
+        path = '[path]',
+        luasnip = '[snip]',
+        treesitter = '[tree]'
       })[entry.source.name]
 
       return vim_item
     end,
   },
   mapping = {
-    ['<cr>'] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Insert, }),
-    ['<c-space>'] = cmp.mapping.complete(),
-    ['<tab>'] = cmp.mapping(function(fallback)
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ["<C-n>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif has_words_before() and vim.fn['vsnip#available']() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-expand-or-jump)', true, true, true), '', true)
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.complete()
       else
         fallback()
       end
-    end, { 'i', 's' }),
-    ['<s-tab>'] = cmp.mapping(function()
+    end, { "i", "s" }
+    ),
+    ["<C-p>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_next_item()
-      elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '', true)
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
       end
-    end, { 'i', 's' }),
+    end, { "i", "s" }),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<C-y>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Inserts,
+      select = true,
+    })
   },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
     { name = 'treesitter' },
+    { name = 'luasnip', } ,
     { name = 'path' },
-    { name = 'buffer', max_item_count = 15 },
-    { name = 'vsnip' },
+    { name = 'buffer', max_item_count = 15, keyword_length = 3 },
   }
 })
+
+require('plugins.lsp')

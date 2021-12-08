@@ -3,7 +3,7 @@ local opt = vim.opt
 local treesitter = require('nvim-treesitter.configs')
 
 treesitter.setup {
-  ensure_installed = {"html", "python", "lua", "json", "regex", "rust", "toml", "bash", "css", "cpp", "c", "java" },
+  ensure_installed = {"python", "lua", "json", "regex", "rust", "toml", "bash", "cpp", "c", "java", "lua", "fish" },
   highlight = {
     enable = true,
     use_languagetree = true,

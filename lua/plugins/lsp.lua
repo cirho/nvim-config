@@ -1,15 +1,7 @@
-local cmp = require('cmp')
-local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local lspconfig = require('lspconfig')
-local lsp_status = require('lsp-status')
-local lsp_extensions = require('lsp_extensions')
-
-local M = {}
-
-local capabilities = cmp_nvim_lsp.update_capabilities(lsp_status.capabilities)
 
 local on_attach = function(client, bufnr)
-  local opts = opts or { silent = true, noremap = true, nowait = true }
+  local opts = { silent = true, noremap = true, nowait = true }
 
   local map_lsp = function(mode, key, fn)
     local lsp_fn = string.format('<cmd> lua vim.lsp.%s()<cr>', fn)
@@ -26,12 +18,8 @@ local on_attach = function(client, bufnr)
   map_lsp('n', 'gr', 'buf.references')
   map_lsp('n', '<leader>f', 'buf.formatting')
   map_lsp('n', '<leader>d', 'buf.type_definition')
-  map_lsp('n', '<leader>e', 'diagnostic.show_line_diagnostics')
 
   map_lsp('n', '<leader>rn', 'buf.rename')
-
-  map_lsp('n', '[d', 'diagnostic.goto_prev')
-  map_lsp('n', ']d', 'diagnostic.goto_next')
 
   map_lsp('n', 'K', 'buf.hover')
   map_lsp('n', '<c-s>', 'buf.signature_help')
@@ -53,59 +41,42 @@ local on_attach = function(client, bufnr)
   end
 end
 
--- display error before warning or hint in signcolumn
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        severity_sort = true
-    }
-)
-
--- show inlay
-M.inlay_hints = function()
-  lsp_extensions.inlay_hints({
-    prefix = '',
-    highlight = 'Comment',
-    enabled = { 'TypeHint', 'ChainingHint' }
-  })
-end
-
-vim.cmd('autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require("plugins.lsp").inlay_hints()')
-
--- statusline provider
-local lsp_symbol = ''
-
-lsp_status.config{
-  status_symbol = lsp_symbol,
-  diagnostics = false
-}
-
-lsp_status.register_progress()
-
-M.status = function()
-  if not vim.tbl_isempty(vim.lsp.buf_get_clients()) then
-    local output = lsp_status.status()
-    if output == lsp_symbol .. ' ' then return output .. 'ready ' end
-    return output
-  end
-  return ''
-end
-
+local capabilities = require('cmp_nvim_lsp').update_capabilities(require('lsp-status').capabilities)
 local servers = {}
 
 -- rust
-servers.rust_analyzer = {
-  settings = {
-    ['rust-analyzer'] = {
-      checkOnSave = {
-        enable = true,
-      },
-      assist = {
-        importMergeBehaviour = 'full',
-        importPrefix = 'by_crate',
-      },
+require('rust-tools').setup({
+  tools = {
+    hover_with_action = false,
+    hover_actions = {
+      border = 'none'
+    },
+    inlay_hints = {
+      show_parameter_hints = false,
+      other_hints_prefix = '> ',
     },
   },
-}
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      flags = {
+        debounce_text_changes = false,
+      }, ['rust-analyzer'] = {
+        assist = {
+          importGranularity = 'module',
+          importPrefix = 'by_self',
+        },
+        cargo = {
+          loadOutDirsFromCheck = true,
+        },
+        procMacro = {
+          enable = true,
+        },
+      },
+    },
+  }
+})
 
 -- c/cpp
 servers.clangd = {
@@ -118,11 +89,39 @@ servers.clangd = {
   },
 }
 
+-- latex
+servers.texlab = {
+  settings = {
+    texlab = {
+      build = {
+        onSave = true,
+      }
+    }
+  }
+}
+
+-- lua
+servers.sumneko_lua = {
+  cmd = { 'lua-language-server' },
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+        path = vim.split(package.path, ';'),
+      },
+      diagnostics = {
+        globals = {'vim'},
+      },
+      telemetry = {
+        enable = false,
+      },
+    }
+  }
+}
+
 for name, server in pairs(servers) do
   lspconfig[name].setup(vim.tbl_extend('keep', server, {
     on_attach = on_attach,
     capabilities = capabilities
   }))
 end
-
-return M
