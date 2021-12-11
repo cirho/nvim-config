@@ -50,7 +50,7 @@ require('telescope').setup{
     git_files = {
       folow = true
     },
-    lsp_workspace_diagnostics = {
+    diagnostics = {
       initial_mode = 'normal',
       theme = 'dropdown'
     },

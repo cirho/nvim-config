@@ -27,7 +27,6 @@ local on_attach = function(client, bufnr)
   map_lsp('v', '<leader>a', 'buf.range_code_action')
 
   map_telescope('n', '<leader>a', 'lsp_code_actions')
-  map_telescope('n', '<leader>q', 'lsp_workspace_diagnostics')
   map_telescope('n', '<leader>rf', 'lsp_references')
 
   if client.resolved_capabilities.document_highlight then

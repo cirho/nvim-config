@@ -20,3 +20,4 @@ vim.diagnostic.config({
 map(']d', '<cmd> lua vim.diagnostic.goto_next()<cr>')
 map('[d', '<cmd> lua vim.diagnostic.goto_prev()<cr>')
 map('<leader>e', '<cmd> lua vim.diagnostic.open_float()<cr>')
+map('<leader>q', '<cmd>lua require("telescope.builtin").diagnostics()<cr>')
