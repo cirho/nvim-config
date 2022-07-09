@@ -39,5 +39,5 @@ require('packer').startup(function(use)
     end
   }
   use 'kyazdani42/nvim-web-devicons'
-  use_conf 'glepnir/galaxyline.nvim'
+  use_conf 'feline-nvim/feline.nvim'
 end)
