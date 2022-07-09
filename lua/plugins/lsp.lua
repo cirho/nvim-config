@@ -30,13 +30,17 @@ local on_attach = function(client, bufnr)
   map_telescope('n', '<leader>rf', 'lsp_references')
 
   if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
+    local group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = true })
+    vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = 0,
+      group = group,
+      callback = vim.lsp.buf.document_highlight
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      buffer = 0,
+      group = group,
+      callback = vim.lsp.buf.clear_references
+    })
   end
 end
 
@@ -82,7 +86,6 @@ servers.clangd = {
   cmd = {
     'clangd',
     '--background-index',
-    '--suggest-missing-includes',
     '--clang-tidy',
     '--header-insertion=iwyu',
   },
@@ -90,6 +93,10 @@ servers.clangd = {
 
 -- latex
 servers.texlab = {
+  cmd_env = {
+    TEXMFCONFIG = vim.env.XDG_DATA_HOME .. "/texlive/texmf-config",
+    TEXMFVAR = vim.env.XDG_DATA_HOME .."/texlive/texmf-var"
+  },
   settings = {
     texlab = {
       build = {

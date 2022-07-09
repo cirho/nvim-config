@@ -1,13 +1,12 @@
 require('packer').startup(function(use)
-  local use_conf = function(repo, deps) 
+  local use_conf = function(repo, deps)
     local name = repo:match('/([%w-]*)'):gsub('.*-', '')
     local deps = deps or {}
-    use { repo, requires = deps, config = string.format("require('plugins.%s')", name) }
+    use { repo, requires = deps , config = string.format("require('plugins.%s')", name) }
   end
 
   use 'wbthomason/packer.nvim'
 
-  use 'simrat39/rust-tools.nvim'
   use 'neovim/nvim-lspconfig'
   use 'nvim-lua/lsp-status.nvim'
 
@@ -27,8 +26,12 @@ require('packer').startup(function(use)
   use 'nvim-lua/plenary.nvim'
   use_conf 'nvim-telescope/telescope.nvim'
 
-  use 'airblade/vim-rooter'
-  use { 'blackCauldron7/surround.nvim', config = I(require('surround').setup({ mapping_style = "sandwitch" })) }
+  use {
+    'airblade/vim-rooter', config = function()
+      vim.g.rooter_patterns = { ".git" }
+    end
+  }
+
   use_conf 'lewis6991/gitsigns.nvim'
   use_conf 'b3nj5m1n/kommentary'
 

@@ -12,7 +12,9 @@ local has_words_before = function()
 end
 
 cmp.setup({
-  snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
+  snippet = {
+    expand = function(args) require('luasnip').lsp_expand(args.body) end
+  },
   formatting = {
     format = function(entry, vim_item)
       vim_item.menu = ({
@@ -54,17 +56,28 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<C-y>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Inserts,
       select = true,
     })
   },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
-    { name = 'treesitter' },
     { name = 'luasnip', } ,
     { name = 'path' },
-    { name = 'buffer', max_item_count = 15, keyword_length = 3 },
+    { name = 'treesitter' },
+    { name = 'buffer', keyword_length = 3, option = {
+        max_item_count = 15,
+        max_indexed_line_length = 500,
+        get_bufnrs = function()
+          local buf = vim.api.nvim_get_current_buf()
+          local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+          if byte_size > 1024 * 1024 then
+            return {}
+          end
+          return { buf }
+        end
+      },
+    },
   }
 })
 

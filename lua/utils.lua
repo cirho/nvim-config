@@ -21,8 +21,14 @@ M.change_indent = function(spaces)
   vim.bo.tabstop = spaces
 end
 
+M.soft_tabs = function()
+  vim.bo.expandtab = true
+  vim.wo.list = true
+end
+
 M.hard_tabs = function()
   vim.bo.expandtab = false
+  vim.wo.list = true
 end
 
 return M

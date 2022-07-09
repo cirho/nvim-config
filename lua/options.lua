@@ -12,16 +12,17 @@ opt.joinspaces = false
 opt.cmdheight = 1
 
 -- goodbye flickering left bar
-opt.signcolumn = 'yes:2'
+opt.signcolumn = 'yes:3'
 
--- smart indenting with 2 spaces
-local indent = 2
+-- smart indenting with 4 spaces
+local indent = 4
 opt.shiftwidth = indent
 opt.softtabstop = indent
 opt.tabstop = indent
 opt.autoindent = true
 opt.expandtab = true
 opt.smartindent = true
+opt.list = false
 
 -- lines offset when scrolling
 opt.scrolloff = 8
@@ -38,10 +39,9 @@ opt.hidden = true
 -- word wrapping
 opt.wrap = false
 
--- show relative line numbers and unwanted spaces
+-- show relative line numbers
 opt.number = true
 opt.relativenumber = true
-opt.list = true
 
 -- visual clue for line length
 opt.colorcolumn = "120"
@@ -64,7 +64,7 @@ opt.wildmenu = true
 opt.wildmode = 'full'
 opt.wildignorecase = true
 opt.wildignore = {
-  '.git', '*.pyc', '*.o', '*.out', '*.e', '*.tar.*', '*.tar','*.zip', '**/tmp/**', '**/node_modules/**',
+  '.git', '*.pyc', '*.o', '*.out', '*.e', '*.tar.*', '*.tar','*.zip', '**/tmp/**',
 }
 opt.wildoptions = 'pum'
 opt.pumblend = 3
@@ -92,4 +92,6 @@ map('<C-g>', ':bd<cr>')
 opt.foldlevelstart = 99
 
 -- hightlight yanked text
-vim.cmd('au TextYankPost * lua vim.highlight.on_yank({ on_visual = true })')
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function() vim.highlight.on_yank({ on_visual = true }) end
+})
