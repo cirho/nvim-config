@@ -1,5 +1,3 @@
-local map = require('utils').map
-
 vim.diagnostic.config({
   underline = true,
   virtual_text = {
@@ -17,7 +15,11 @@ vim.diagnostic.config({
   update_in_insert = false,
 })
 
-map(']d', '<cmd> lua vim.diagnostic.goto_next()<cr>')
-map('[d', '<cmd> lua vim.diagnostic.goto_prev()<cr>')
-map('<leader>e', '<cmd> lua vim.diagnostic.open_float()<cr>')
-map('<leader>q', '<cmd>lua require("telescope.builtin").diagnostics()<cr>')
+local map = function(key, fn)
+  vim.keymap.set('n', key, fn, { silent = true, noremap = true, nowait = true })
+end
+
+map(']d', vim.diagnostic.goto_next)
+map('[d', vim.diagnostic.goto_prev)
+map('<leader>e', vim.diagnostic.open_float)
+map('<leader>q', require('telescope.builtin').diagnostics)

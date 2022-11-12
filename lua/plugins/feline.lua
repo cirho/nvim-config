@@ -2,6 +2,8 @@ local lazy_require = require('feline.utils').lazy_require
 local vi_mode = lazy_require 'feline.providers.vi_mode'
 local lspstatus = lazy_require 'lsp-status'
 
+vim.opt.showmode = false
+
 local colors = {
   bg = '#282c34',
   fg = '#abb2bf',

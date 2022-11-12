@@ -1,33 +1,29 @@
 local lspconfig = require('lspconfig')
+local tele = require('telescope.builtin')
 
 local on_attach = function(client, bufnr)
-  local opts = { silent = true, noremap = true, nowait = true }
+  local opts = { silent = true, noremap = true, nowait = true, buffer = bufnr }
 
-  local map_lsp = function(mode, key, fn)
-    local lsp_fn = string.format('<cmd> lua vim.lsp.%s()<cr>', fn)
-    vim.api.nvim_buf_set_keymap(bufnr, mode, key, lsp_fn, opts)
-  end
-  local map_telescope = function(mode, key, fn)
-    local tele_fn = string.format('<cmd>lua require("telescope.builtin").%s()<cr>', fn)
-    vim.api.nvim_buf_set_keymap(bufnr, mode, key, tele_fn, opts)
+  local map = function(mode, key, fn)
+    vim.keymap.set(mode, key, fn, opts)
   end
 
-  map_lsp('n', 'gD', 'buf.declaration')
-  map_lsp('n', 'gd', 'buf.definition')
-  map_lsp('n', 'gi', 'buf.implementation')
-  map_lsp('n', 'gr', 'buf.references')
-  map_lsp('n', '<leader>f', 'buf.formatting')
-  map_lsp('n', '<leader>d', 'buf.type_definition')
+  map('n', 'gD', vim.lsp.buf.declaration)
+  map('n', 'gd', vim.lsp.buf.definition)
+  map('n', 'gi', vim.lsp.buf.implementation)
+  map('n', 'gr', vim.lsp.buf.references)
+  map('n', '<leader>f', vim.lsp.buf.formatting)
+  map('n', '<leader>d', vim.lsp.buf.type_definition)
 
-  map_lsp('n', '<leader>rn', 'buf.rename')
+  map('n', '<leader>rn', vim.lsp.buf.rename)
 
-  map_lsp('n', 'K', 'buf.hover')
-  map_lsp('n', '<c-s>', 'buf.signature_help')
+  map('n', 'K', vim.lsp.buf.hover)
+  map('n', '<c-s>', vim.lsp.buf.signature_help)
 
-  map_lsp('v', '<leader>a', 'buf.range_code_action')
+  map('n', '<leader>a', vim.lsp.buf.code_action)
+  map('v', '<leader>a', vim.lsp.buf.range_code_action)
 
-  map_telescope('n', '<leader>a', 'lsp_code_actions')
-  map_telescope('n', '<leader>rf', 'lsp_references')
+  map('n', '<leader>rf', tele.lsp_references)
 
   if client.resolved_capabilities.document_highlight then
     local group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = true })
@@ -44,42 +40,27 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(require('lsp-status').capabilities)
 local servers = {}
 
 -- rust
-require('rust-tools').setup({
-  tools = {
-    hover_with_action = false,
-    hover_actions = {
-      border = 'none'
-    },
-    inlay_hints = {
-      show_parameter_hints = false,
-      other_hints_prefix = '> ',
-    },
-  },
-  server = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      flags = {
-        debounce_text_changes = false,
-      }, ['rust-analyzer'] = {
-        assist = {
-          importGranularity = 'module',
-          importPrefix = 'by_self',
-        },
-        cargo = {
-          loadOutDirsFromCheck = true,
-        },
-        procMacro = {
-          enable = true,
-        },
+servers.rust_analyzer = {
+  settings = {
+    flags = {
+      debounce_text_changes = false,
+    }, ['rust-analyzer'] = {
+      assist = {
+        importGranularity = 'module',
+        importPrefix = 'by_self',
+      },
+      cargo = {
+        loadOutDirsFromCheck = true,
+      },
+      procMacro = {
+        enable = true,
       },
     },
-  }
-})
+  },
+}
 
 -- c/cpp
 servers.clangd = {
@@ -106,24 +87,28 @@ servers.texlab = {
   }
 }
 
--- lua
-servers.sumneko_lua = {
-  cmd = { 'lua-language-server' },
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
-      },
-      diagnostics = {
-        globals = {'vim'},
-      },
-      telemetry = {
-        enable = false,
-      },
-    }
-  }
-}
+servers.pylsp = {}
+
+-- -- lua
+-- servers.sumneko_lua = {
+--   cmd = { 'lua-language-server' },
+--   settings = {
+--     Lua = {
+--       runtime = {
+--         version = 'LuaJIT',
+--         path = vim.split(package.path, ';'),
+--       },
+--       diagnostics = {
+--         globals = {'vim'},
+--       },
+--       telemetry = {
+--         enable = false,
+--       },
+--     }
+--   }
+-- }
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 for name, server in pairs(servers) do
   lspconfig[name].setup(vim.tbl_extend('keep', server, {
