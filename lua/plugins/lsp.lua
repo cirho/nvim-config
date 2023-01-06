@@ -25,7 +25,7 @@ local on_attach = function(client, bufnr)
 
   map('n', '<leader>rf', tele.lsp_references)
 
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.documentHighlightProvider then
     local group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = true })
     vim.api.nvim_create_autocmd("CursorHold", {
       buffer = 0,
