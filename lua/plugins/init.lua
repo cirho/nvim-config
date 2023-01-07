@@ -11,9 +11,15 @@ require('packer').startup(function(use)
   use 'nvim-lua/lsp-status.nvim'
 
   use_conf 'L3MON4D3/luasnip'
-  use_conf 'nvim-treesitter/nvim-treesitter'
 
-  use_conf('hrsh7th/nvim-cmp',{
+  use 'nvim-treesitter/nvim-treesitter'
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    after = 'nvim-treesitter',
+    config = "require('plugins.treesitter')"
+  }
+
+  use_conf('hrsh7th/nvim-cmp', {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lua',
     'hrsh7th/cmp-nvim-lsp',
