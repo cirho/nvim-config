@@ -12,7 +12,7 @@ local on_attach = function(client, bufnr)
   map('n', 'gd', vim.lsp.buf.definition)
   map('n', 'gi', vim.lsp.buf.implementation)
   map('n', 'gr', vim.lsp.buf.references)
-  map('n', '<leader>f', vim.lsp.buf.formatting)
+  map('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end )
   map('n', '<leader>d', vim.lsp.buf.type_definition)
 
   map('n', '<leader>rn', vim.lsp.buf.rename)
@@ -87,6 +87,7 @@ servers.texlab = {
   }
 }
 
+servers.typst_lsp= {}
 servers.pylsp = {}
 
 -- -- lua
