@@ -7,24 +7,27 @@ require('gitsigns').setup {
     changedelete = { hl = 'DiffChange', text = '~', numhl='GitSignsChangeNr' },
   },
   numhl = false,
-  keymaps = {
-    noremap = true,
-    buffer = true,
+  on_attach = function(bufnr)
+    local opts = { silent = true, noremap = true, nowait = true, buffer = bufnr }
+    local gs = package.loaded.gitsigns
+    local map = function(mode, key, fn)
+      vim.keymap.set(mode, key, fn, opts)
+    end
 
-    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<cr>'" },
-    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<cr>'" },
+    map('n', ']c', function() vim.schedule(gs.next_hunk) end)
+    map('n', '[c', function() vim.schedule(gs.prev_hunk) end)
 
-    ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<cr>',
-    ['n <leader>hS'] = '<cmd>lua require"gitsigns".stage_buffer()<cr>',
-    ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<cr>',
-    ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<cr>',
-    ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<cr>',
-    ['n <leader>hb'] = '<cmd>lua require"gitsigns".blame_line()<cr>',
+    map('n', '<leader>hs', gs.stage_hunk)
+    map('n', '<leader>hS', gs.stage_buffer)
+    map('n', '<leader>hu', gs.undo_stage_hunk)
+    map('n', '<leader>hr', gs.reset_hunk)
+    map('n', '<leader>hp', gs.preview_hunk)
 
-    -- text objects
-    ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<cr>',
-    ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<cr>'
-  },
+    map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+    map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+    map('n', '<leader>hR', gs.reset_buffer)
+    map('n', '<leader>hb', gs.blame_line)
+  end,
   watch_gitdir = {
     interval = 1000,
     follow_files = true
