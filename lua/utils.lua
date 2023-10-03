@@ -16,19 +16,19 @@ M.has_width_gt = function(cols)
 end
 
 M.change_indent = function(spaces)
-  vim.bo.shiftwidth = spaces
-  vim.bo.softtabstop = spaces
-  vim.bo.tabstop = spaces
+  vim.opt_local.shiftwidth = spaces
+  vim.opt_local.softtabstop = spaces
+  vim.opt_local.tabstop = spaces
 end
 
 M.soft_tabs = function()
-  vim.bo.expandtab = true
-  vim.wo.list = true
+  vim.opt_local.expandtab = true
+  vim.opt_local.list = true
 end
 
 M.hard_tabs = function()
-  vim.bo.expandtab = false
-  vim.wo.list = true
+  vim.opt_local.expandtab = false
+  vim.opt_local.list = true
 end
 
 return M
