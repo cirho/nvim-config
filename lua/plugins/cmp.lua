@@ -90,7 +90,5 @@ return {
         },
       }
     })
-
-    require('plugins.lsp')
   end
 }

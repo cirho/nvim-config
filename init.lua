@@ -17,7 +17,7 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  'neovim/nvim-lspconfig',
+  require('plugins.lspconfig'),
   require('plugins.luasnip'),
   require('plugins.cmp'),
   require('plugins.telescope'),
