@@ -22,4 +22,4 @@ end
 map(']d', vim.diagnostic.goto_next)
 map('[d', vim.diagnostic.goto_prev)
 map('<leader>e', vim.diagnostic.open_float)
-map('<leader>q', require('telescope.builtin').diagnostics)
+map('<leader>q', vim.diagnostic.setqflist)
