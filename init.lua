@@ -49,7 +49,7 @@ require("lazy").setup({
     'airblade/vim-rooter', config = function() vim.g.rooter_patterns = { ".git" } end
   },
   use_conf('lewis6991/gitsigns.nvim'),
-  use_conf('b3nj5m1n/kommentary'),
+  require('plugins.kommentary'),
   'kyazdani42/nvim-web-devicons',
   use_conf 'feline-nvim/feline.nvim',
   {
