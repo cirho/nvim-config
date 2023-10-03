@@ -1,81 +1,80 @@
-local opt = vim.opt
-
 local map = require('utils').map
 
-opt.swapfile = false
-opt.undofile = true
+vim.opt.swapfile = false
+vim.opt.undofile = true
 
 -- same spaces
-opt.joinspaces = false
+vim.opt.joinspaces = false
 
 -- do not waste vertical space
-opt.cmdheight = 1
+vim.opt.cmdheight = 1
 
 -- goodbye flickering left bar
-opt.signcolumn = 'yes:3'
+vim.opt.signcolumn = 'yes:3'
 
 -- smart indenting with 4 spaces
 local indent = 4
-opt.shiftwidth = indent
-opt.softtabstop = indent
-opt.tabstop = indent
-opt.autoindent = true
-opt.expandtab = true
-opt.smartindent = true
-opt.list = false
+vim.opt.autoindent = true
+vim.opt.expandtab = true
+vim.opt.smartindent = true
+vim.opt.tabstop = indent
+vim.opt.shiftwidth = indent
+vim.opt.softtabstop = indent
+
+vim.opt.list = false
 
 -- lines offset when scrolling
-opt.scrolloff = 8
+vim.opt.scrolloff = 8
 
 -- sane colors
-opt.termguicolors = true
+vim.opt.termguicolors = true
 
 -- no visual effects during macro exeution
-opt.lazyredraw = true
+vim.opt.lazyredraw = true
 
 -- do not destoy old buffer when changing
-opt.hidden = true
+vim.opt.hidden = true
 
 -- word wrapping
-opt.wrap = false
+vim.opt.wrap = false
 
 -- show relative line numbers
-opt.number = true
-opt.relativenumber = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- visual clue for line length
-opt.colorcolumn = "120"
+vim.opt.colorcolumn = "120"
 
 -- full mouse support
-opt.mouse = 'a'
+vim.opt.mouse = 'a'
 
 -- sane seaching
-opt.ignorecase = true
-opt.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
-opt.updatetime = 300
-opt.ttimeoutlen = 10
+vim.opt.updatetime = 300
+vim.opt.ttimeoutlen = 10
 
 -- live substitution preview
-opt.inccommand = 'nosplit'
+vim.opt.inccommand = 'nosplit'
 
-opt.confirm = true
-opt.wildmenu = true
-opt.wildmode = 'full'
-opt.wildignorecase = true
-opt.wildignore = {
+vim.opt.confirm = true
+vim.opt.wildmenu = true
+vim.opt.wildmode = 'full'
+vim.opt.wildignorecase = true
+vim.opt.wildignore = {
   '.git', '*.pyc', '*.o', '*.out', '*.e', '*.tar.*', '*.tar','*.zip', '**/tmp/**',
 }
-opt.wildoptions = 'pum'
-opt.pumblend = 3
+vim.opt.wildoptions = 'pum'
+vim.opt.pumblend = 3
 
 -- fast begin and end of line
 map('L', '$', '', {})
 map('H', '^', '', {})
 
 -- leader is nop
-map('<leader>','', 'x', { noremap = true })
-map('<leader>','', 'n', { noremap = true })
+map('<leader>', '', 'x', { noremap = true })
+map('<leader>', '', 'n', { noremap = true })
 
 -- quick save
 map('<leader>w', ':w<CR>')
@@ -88,8 +87,9 @@ map('<C-L>', '<C-W><C-L>')
 map('<leader><leader>', '<C-^>')
 map('<leader>z', '1z=')
 map('<C-g>', ':bd<cr>')
+
 -- folding
-opt.foldlevelstart = 99
+vim.opt.foldlevelstart = 99
 
 -- hightlight yanked text
 vim.api.nvim_create_autocmd('TextYankPost', {
