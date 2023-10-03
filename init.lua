@@ -31,15 +31,13 @@ end
 
 require("lazy").setup({
   'neovim/nvim-lspconfig',
-  'nvim-lua/lsp-status.nvim',
   use_conf('L3MON4D3/luasnip'),
   require('plugins.cmp'),
   require('plugins.telescope'),
   require('plugins.gitsigns'),
   require('plugins.kommentary'),
-  'kyazdani42/nvim-web-devicons',
   require('plugins.misc'),
-  use_conf 'feline-nvim/feline.nvim',
+  require('plugins.feline'),
   require('plugins.treesitter'),
   },{
   change_detection = {
