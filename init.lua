@@ -43,24 +43,16 @@ require("lazy").setup({
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/luasnip',
   }),
-  'nvim-lua/plenary.nvim',
   use_conf('nvim-telescope/telescope.nvim'),
-  {
-    'airblade/vim-rooter', config = function() vim.g.rooter_patterns = { ".git" } end
-  },
   require('plugins.gitsigns'),
   require('plugins.kommentary'),
   'kyazdani42/nvim-web-devicons',
+  require('plugins.misc'),
   use_conf 'feline-nvim/feline.nvim',
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     dependencies = { 'nvim-treesitter' },
     config = function() require('plugins.treesitter') end,
-  },{
-    'sainnhe/sonokai', config = function()
-      vim.g.sonokai_style = 'shusia'
-      vim.cmd [[ colorscheme sonokai ]]
-    end
   }},{
   change_detection = {
     enabled = false,
