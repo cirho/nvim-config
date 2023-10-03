@@ -43,7 +43,7 @@ require("lazy").setup({
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/luasnip',
   }),
-  use_conf('nvim-telescope/telescope.nvim'),
+  require('plugins.telescope'),
   require('plugins.gitsigns'),
   require('plugins.kommentary'),
   'kyazdani42/nvim-web-devicons',
