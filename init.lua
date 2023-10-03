@@ -32,7 +32,6 @@ end
 require("lazy").setup({
   'neovim/nvim-lspconfig',
   'nvim-lua/lsp-status.nvim',
-  'nvim-treesitter/nvim-treesitter',
   use_conf('L3MON4D3/luasnip'),
   require('plugins.cmp'),
   require('plugins.telescope'),
@@ -41,11 +40,8 @@ require("lazy").setup({
   'kyazdani42/nvim-web-devicons',
   require('plugins.misc'),
   use_conf 'feline-nvim/feline.nvim',
-  {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    dependencies = { 'nvim-treesitter' },
-    config = function() require('plugins.treesitter') end,
-  }},{
+  require('plugins.treesitter'),
+  },{
   change_detection = {
     enabled = false,
     notify = false,
