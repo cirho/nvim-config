@@ -14,7 +14,6 @@ return {
           '--column',
           '--smart-case',
         },
-        -- path_display = { "absolute" },
         set_env = { ['COLORTERM'] = 'truecolor' }
       },
       pickers = {
@@ -39,12 +38,7 @@ return {
     map('<leader>gg', tb.git_files)
     map('<leader>go', tb.oldfiles)
     map('<leader>rg', tb.live_grep)
-    map('<leader>p', function()
-      tb.find_files({
-        find_command = { 'fd', '--type', 'f', '-E', 'qemu', }
-      })
-
-    end)
+    map('<leader>p', function() tb.find_files({ find_command = { 'fd', '--type', 'f' } }) end)
     map('<leader>;', tb.buffers)
     map('<leader>m', tb.marks)
 
