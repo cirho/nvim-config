@@ -9,6 +9,7 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/luasnip',
   },
+  event = 'InsertEnter',
   config = function()
     local cmp = require('cmp')
     local luasnip = require('luasnip')
