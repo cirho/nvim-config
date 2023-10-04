@@ -47,7 +47,7 @@ return {
       end
 
       lspconfig[server].setup(vim.tbl_extend('keep', config, {
-        on_attach = require('lsp').custom_attach,
+        on_attach = require('lo.lsp').custom_attach,
         capabilities = capabilities
       }))
     end

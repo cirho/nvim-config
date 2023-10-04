@@ -9,15 +9,15 @@ vim.g.loaded_ruby_provider = 0
 
 vim.g.asmsyntax = 'nasm'
 
-require('debug')
-require('options')
-require('diagnostics')
+require('lo.debug')
+require('lo.options')
+require('lo.diagnostics')
 
 vim.loader.enable()
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins", {
+require("lazy").setup("lo.plugins", {
   change_detection = {
     enabled = false,
     notify = false,

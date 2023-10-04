@@ -1,2 +1,2 @@
-require('utils').change_indent(2)
-require('utils').soft_tabs()
+require('lo.utils').change_indent(2)
+require('lo.utils').soft_tabs()

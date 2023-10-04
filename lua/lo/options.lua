@@ -1,4 +1,4 @@
-local map = require('utils').map
+local map = require('lo.utils').map
 
 vim.opt.swapfile = false
 vim.opt.undofile = true
