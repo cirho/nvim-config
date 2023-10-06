@@ -21,7 +21,17 @@ vim.opt.tabstop = indent
 vim.opt.shiftwidth = indent
 vim.opt.softtabstop = indent
 
-vim.opt.list = false
+-- smart whitespace display
+vim.opt.list = true
+vim.opt.listchars = {
+    tab = "<->",
+    nbsp = "+",
+    extends = "·",
+    precedes = "·",
+    trail = "-",
+    multispace = "-",
+    leadmultispace = " ",
+}
 
 -- lines offset when scrolling
 vim.opt.scrolloff = 8

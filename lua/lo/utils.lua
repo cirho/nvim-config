@@ -23,12 +23,12 @@ end
 
 M.soft_tabs = function()
   vim.opt_local.expandtab = true
-  vim.opt_local.list = true
+  vim.opt_local.listchars = vim.opt_local.listchars + { tab = '<->', leadmultispace = ' '}
 end
 
 M.hard_tabs = function()
   vim.opt_local.expandtab = false
-  vim.opt_local.list = true
+  vim.opt_local.listchars = vim.opt_local.listchars + { tab = '  ' } - { 'leadmultispace' }
 end
 
 return M
