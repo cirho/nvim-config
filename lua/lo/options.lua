@@ -3,6 +3,9 @@ local map = require('lo.utils').map
 vim.opt.swapfile = false
 vim.opt.undofile = true
 
+-- highlight current line
+vim.opt.cursorline = true
+
 -- same spaces
 vim.opt.joinspaces = false
 
