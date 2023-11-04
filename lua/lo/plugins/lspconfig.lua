@@ -11,6 +11,11 @@ return {
           flags = {
             debounce_text_changes = false,
           }, ['rust-analyzer'] = {
+            completion = {
+              autoimport = {
+                enable = false
+              }
+            }
           },
         },
       },
