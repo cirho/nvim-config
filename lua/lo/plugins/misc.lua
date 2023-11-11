@@ -5,6 +5,9 @@ return {
   }, {
     'nvim-lua/plenary.nvim',
   }, {
+    'qnighy/lalrpop.vim',
+    commit = '7073eec8efdeff37cacd4bca378c28dad02c3c14'
+  }, {
     'ellisonleao/gruvbox.nvim',
     config = function()
       require("gruvbox").setup({
