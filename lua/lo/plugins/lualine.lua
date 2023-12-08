@@ -27,8 +27,8 @@ return {
       icons_enabled = false,
     },
     sections = {
-      lualine_b = { 'branch', { 'diff', source = diff_source }, 'diagnostics' } ,
-      lualine_c = { 'filename', 'lsp_progress' },
+      lualine_b = { { 'filename', path = 1 }, 'branch' } ,
+      lualine_c = { 'diagnostics', { 'diff', source = diff_source }, 'lsp_progress' },
       lualine_x = { 'filetype'},
     }
   },
