@@ -1,3 +1,20 @@
+local compare_kind = function(entry1, entry2)
+  local types = require('cmp.types')
+  local kind1 = entry1:get_kind()
+  local kind2 = entry2:get_kind()
+  kind1 = kind1 == types.lsp.CompletionItemKind.Text and 100 or kind1
+  kind2 = kind2 == types.lsp.CompletionItemKind.Text and 100 or kind2
+  if kind1 ~= kind2 then
+    local diff = kind1 - kind2
+    if diff < 0 then
+      return true
+    elseif diff > 0 then
+      return false
+    end
+  end
+  return nil
+end
+
 return {
   'hrsh7th/nvim-cmp',
   dependencies = {
@@ -39,6 +56,15 @@ return {
 
           return vim_item
         end,
+      },
+      sorting = {
+        priority_weight = 2,
+        comparators = {
+          cmp.config.compare.score,
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.recently_used,
+        }
       },
       mapping = {
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
