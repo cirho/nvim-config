@@ -12,7 +12,7 @@ local custom_attach = function(client, bufnr)
   map('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end )
   map('n', '<leader>d', vim.lsp.buf.type_definition)
 
-  map('n', '<leader>rn', vim.lsp.buf.rename)
+  map('n', '<leader>r', vim.lsp.buf.rename)
 
   map('n', 'K', vim.lsp.buf.hover)
   map('n', '<c-s>', vim.lsp.buf.signature_help)
