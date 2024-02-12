@@ -27,7 +27,12 @@ return {
         inverse = true,
         contrast = "",
         palette_overrides = {
-          grey = '#ffffff'
+          grey = '#ffffff',
+          dark0 = '#222222',
+          dark1 = '#282828',
+          dark2 = '#303030',
+          dark3 = '#404040',
+          dark4 = '#525252',
         },
         overrides = {},
         dim_inactive = false,
