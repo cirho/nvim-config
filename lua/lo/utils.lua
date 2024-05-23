@@ -4,15 +4,7 @@ M.map = function(f, t, m, opts)
   local m = m or 'n'
   local opts = opts or { silent = true, noremap = true, nowait = true }
 
-  vim.api.nvim_set_keymap(m, f, t, opts)
-end
-
-M.is_buffer_empty = function()
-  return vim.fn.empty(vim.fn.expand('%:t')) == 1
-end
-
-M.has_width_gt = function(cols)
-  return vim.fn.winwidth(0) / 2 > cols
+  vim.keymap.set(m, f, t, opts)
 end
 
 M.change_indent = function(spaces)

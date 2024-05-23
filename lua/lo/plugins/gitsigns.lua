@@ -16,18 +16,20 @@ return {
         vim.keymap.set(mode, key, fn, opts)
       end
 
-      map('n', ']c', function() vim.schedule(gs.next_hunk) end)
-      map('n', '[c', function() vim.schedule(gs.prev_hunk) end)
+      map('n', ']g', function() vim.schedule(gs.next_hunk) end)
+      map('n', '[g', function() vim.schedule(gs.prev_hunk) end)
 
       map('n', '<leader>hs', gs.stage_hunk)
-      map('n', '<leader>hS', gs.stage_buffer)
-      map('n', '<leader>hu', gs.undo_stage_hunk)
       map('n', '<leader>hr', gs.reset_hunk)
-      map('n', '<leader>hp', gs.preview_hunk)
-
       map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
       map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+
+      map('n', '<leader>hu', gs.undo_stage_hunk)
+
+      map('n', '<leader>hS', gs.stage_buffer)
       map('n', '<leader>hR', gs.reset_buffer)
+
+      map('n', '<leader>hp', gs.preview_hunk)
       map('n', '<leader>hb', gs.blame_line)
     end,
     watch_gitdir = {

@@ -1,10 +1,16 @@
 return {
   {
-    'airblade/vim-rooter',
-    config = function() vim.g.rooter_patterns = { ".git" } end
-  }, {
-    'nvim-lua/plenary.nvim',
-  }, {
+    'ahmedkhalf/project.nvim',
+    lazy = false,
+    priority = 100,
+    config = function()
+      require("project_nvim").setup({
+        detection_methods = { "pattern", "lsp" },
+        patterns = { ".git", "Makefile" }
+      })
+    end
+  },
+  {
     'ellisonleao/gruvbox.nvim',
     config = function()
       require("gruvbox").setup({
@@ -39,8 +45,7 @@ return {
         transparent_mode = false,
       })
 
-      vim.o.background = "dark"
-      vim.cmd([[colorscheme gruvbox]])
+      vim.cmd.colorscheme("gruvbox")
     end
   }
 }

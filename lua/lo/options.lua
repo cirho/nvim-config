@@ -88,6 +88,7 @@ map('H', '^', '', {})
 -- leader is nop
 map('<leader>', '', 'x', { noremap = true })
 map('<leader>', '', 'n', { noremap = true })
+map('<leader>y', '"+y', 'v')
 
 -- quick save
 map('<leader>w', ':w<CR>')

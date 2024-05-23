@@ -57,8 +57,10 @@ return {
       }))
     end
 
+    require('lo.lsp').global_attach()
     for server, config in pairs(servers) do
       setup_server(server, config)
     end
+
   end
 }

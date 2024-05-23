@@ -1,9 +1,9 @@
-local langs = {"python", "lua", "json", "regex", "rust", "toml", "bash", "cpp", "c", "lua", "fish", "ledger" }
+local langs = {"python", "query", "vimdoc", "json", "regex", "rust", "toml", "bash", "cpp", "c", "lua", "fish" }
 
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ":TSUpdate",
-  ft = langs,
+  lazy = false,
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },

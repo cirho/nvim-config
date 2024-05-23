@@ -59,13 +59,6 @@ end
 
 return {
   'nvim-lualine/lualine.nvim',
-  dependencies = {
-    'kyazdani42/nvim-web-devicons',
-    {
-      'WhoIsSethDaniel/lualine-lsp-progress.nvim',
-      commit = 'd76634e491076e45f465b31849d6ec320b436abb'
-    }
-  },
   opts = {
     options = {
       section_separators = '',
@@ -75,7 +68,7 @@ return {
     },
     sections = {
       lualine_b = { { 'filename', path = 1 }, 'branch' } ,
-      lualine_c = { 'diagnostics', { 'diff', source = diff_source }, 'lsp_progress' },
+      lualine_c = { 'diagnostics', { 'diff', source = diff_source }, },
       lualine_x = { 'filetype' },
     }
   },
